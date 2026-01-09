@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CBAR is a Speech Enhancement system powered by a Machine Learning engine comprising four components; CNN, BiLSTM, Attention Mechanism, Residual Connections"/>
+  <meta name="author" content="Charles Ita Ekanem"/>
+  <meta name="keywords" content="Speech Enhancement, Custom Dataset, Research, Nigerian Cities, Machine Learning, Abuja, Uyo, Lagos, Port Harcourt, Artificial Intelligence, Tech, Machine Learning"/>
+  <title>CBAR: Speech Enhancement</title>
+
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Favicon (optional) -->
+  <link rel="icon" href="C:\Users\CHARLES EKANEM\Documents\CBAR project\CBAR logo.png" type="image/x-icon" />
+
+  <!-- Icons (Font Awesome) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- GSAP for advanced animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+   <!-- Particles.js Script -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <style>
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: -1;
+    }
+  </style>
+
+  <!-- Monaco-like tech font (keep as requested) -->
+  <style>
+    body { font-family: Monaco, Consolas, "Lucida Console", monospace; }
+    html { scroll-behavior: smooth; }
+    /* Basic scrollspy highlight */
+    .nav-active { color: #111827; border-bottom: 2px solid #111827; }
+    /* Hide scrollbars for hero background crossfade smoothness */
+    #carousel .slide { transition: opacity 1s ease-in-out; }
+    /* Ticker */
+    .ticker {
+      white-space: nowrap; overflow: hidden; position: relative;
+    }
+    .ticker > div {
+      display: inline-block; padding-left: 100%;
+      animation: ticker-move 50s linear infinite;
+    }
+    @keyframes ticker-move {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-900 text-white">
+   <!-- Background -->
+  <div id="particles-js"></div>
+  <!-- Navbar -->
+  <nav class="flex justify-between items-center p-6 bg-white shadow-md fixed w-full top-0 z-50">
+    <div class="flex items-center space-x-3">
+      <img src="C:\Users\CHARLES EKANEM\Documents\CBAR project\CBAR logo.png" alt="CBAR Logo" class="h-10 w-10 rounded-full"/>
+      <span class="text-2xl font-bold text-black">CNN-BiLSTM-ATTENTION-RESIDUAL</span>
+    </div>
+    <div class="hidden md:flex space-x-6 text-gray-800 font-medium" id="navbarLinks">
+      <a href="#home" class="hover:text-yellow-600 nav-link">Home</a>
+      <a href="#why" class="hover:text-blue-600 nav-link">Why CBAR</a>
+      <a href="#dataset" class="hover:text-green-600 nav-link">Dataset</a>
+      <a href="#how" class="hover:text-red-600 nav-link">How it Works</a>
+      <a href="#demo" class="hover:text-indigo-600 nav-link">Demo</a>
+      <a href="#documentation" class="hover:text-violet-600 nav-link">Documentation</a>
+      <a href="#reviews" class="hover:text-pink-600 nav-link">Reviews</a>
+      <a href="#contact" class="hover:text-indigo-600 nav-link">Contact</a>
+    </div>
+    <!-- Mobile Menu Toggle -->
+    <button id="menuToggle" class="md:hidden text-black focus:outline-none text-2xl" aria-label="Toggle Menu">
+      ☰
+    </button>
+  </nav>
+
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobileMenu" class="hidden md:hidden fixed top-[72px] w-full bg-gray-900/95 backdrop-blur text-gray-200 z-40">
+    <div class="flex flex-col px-6 py-4 space-y-3">
+      <a href="#home" class="hover:text-yellow-400 nav-link">Home</a>
+      <a href="#why" class="hover:text-blue-400 nav-link">Why CBAR</a>
+      <a href="#dataset" class="hover:text-green-400 nav-link">Dataset</a>
+      <a href="#how" class="hover:text-red-400 nav-link">How it Works</a>
+      <a href="#demo" class="hover:text-indigo-400 nav-link">Demo</a>
+      <a href="#documentation" class="hover:text-violet-400 nav-link">Documentation</a>
+      <a href="#reviews" class="hover:text-pink-400 nav-link">Reviews</a>
+      <a href="#contact" class="hover:text-indigo-400 nav-link">Contact</a>
+    </div>
+  </div>
+
+  <!-- Hero Section with Background Carousel -->
+  <section id="home" class="relative min-h-screen flex flex-col justify-center items-center text-center text-white overflow-hidden">
+    <!-- Background Carousel -->
+    <div id="carousel" class="absolute inset-0 z-0">
+      <div class="slide absolute inset-0 bg-cover bg-center opacity-100" style="background-image:url('Screenshot 2025-08-17 191402.png');"></div>
+      <div class="slide absolute inset-0 bg-cover bg-center opacity-0" style="background-image:url('Screenshot 2025-08-17 192135.png');"></div>
+      <div class="slide absolute inset-0 bg-cover bg-center opacity-0" style="background-image:url('Screenshot 2025-08-17 192245.png');"></div>
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-black/50"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 px-6">
+      <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight" id="heroTitle">
+        Revolutionizing Speech Enhancement with CBAR
+      </h1>
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto" id="heroSubtitle">
+        Cleaner audio for Nigeria’s urban noise, powered by AI.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#demo" class="px-8 py-4 bg-black/40 backdrop-blur border border-white/30 text-white font-semibold rounded-xl hover:bg-black/60 transition">
+          TRY DEMO
+        </a>
+        <a href="#documentation" class="px-8 py-4 bg-black/40 backdrop-blur border border-white/30 text-white font-semibold rounded-xl hover:bg-black/60 transition">
+          Read Docs
+        </a>
+      </div>
+    </div>
+
+    <!-- Facts Ticker (overlay at bottom of Hero) -->
+    <div class="absolute bottom-6 w-full flex justify-center z-10 px-4">
+      <div class="ticker bg-black/70 rounded-full px-6 py-2 text-sm md:text-base shadow-lg">
+        <div id="factsTicker">
+          <span class="mx-8">The Dataset is made of over <b>1300 hours</b> of sound recording</span>
+          <span class="mx-8">CBAR outperformed SEGAN by <b>6%</b> on Nigerian Urban Noises</span>
+          <span class="mx-8">Noise levels in Nigerian cities often exceed <b>WHO</b> guidelines</span>
+          <span class="mx-8">Recordings from <b>Abuja</b>, <b>Lagos</b>, <b>Port-Harcourt</b> and <b>Uyo</b></span>
+          <span class="mx-8">Port-Harcourt is a leading center for Noise pollution</span>
+          <span class="mx-8">Designed for <b>non-stationary</b> noise environments</span>
+          <span class="mx-8">Urban Nigerians at <b>60% risk</b> of harmful noise exposure</span>
+          <span class="mx-8">Ibadan milling workshops: <b>95–105 dB</b></span>
+          <span class="mx-8">Akure markets: noise > WHO limit, <b>lower noise = higher sales</b></span>
+          <span class="mx-8">Ilorin industrial zones up to <b>110 dB</b></span>
+          <span class="mx-8">Port Harcourt junctions hit ~<b>90 dB</b> daily noise</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why CBAR (CTA section after hero) -->
+  <div class="h-2 bg-gradient-to-r from-cyan-600 via-orange-500 to-blue-500"></div>
+  <section id="why" class="py-20 bg-white text-gray-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold mb-4">Why Urban Clarity Matters</h2>
+        <p class="text-lg text-black-600">Built for our real-world soundmotsphere; markets, highways, generators and city life.</p>
+      </div>
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="bg-pink-400 p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <i class="fa-solid fa-city text-3xl mb-4 text-indigo-600"></i>
+          <h3 class="text-xl font-semibold mb-2">Everyday Noise</h3>
+          <p class="text-black-600">Lagos, Abuja, PHC and Uyo present complex noise patterns that degrade speech clarity.</p>
+        </div>
+        <div class="bg-orange-400 p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <i class="fa-solid fa-heart-pulse text-3xl mb-4 text-red-500"></i>
+          <h3 class="text-xl font-semibold mb-2">Health Impact</h3>
+          <p class="text-black-600">Noise above 85 dB causes stress and hearing loss. Nigerian traffic often exceeds 90 dB daily.</p>
+        </div>
+        <div class="bg-red-400 p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <i class="fa-solid fa-chart-line text-3xl mb-4 text-green-600"></i>
+          <h3 class="text-xl font-semibold mb-2">Economic Loss</h3>
+          <p class="text-black-600">Studies show markets with lower noise see higher sales. CBAR helps keep voices clear.</p>
+        </div>
+      </div>
+      <div class="grid gap-8 md:grid-cols-2 p-3">
+        <div class="card bg-green-400 p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <div class="card text-3xl mb-4"><i class="fa-solid fa-user-gear"></i></div>
+          <h3 class="text-xl font-semibold mb-2">Built for Nigerians</h3>
+          <p class="text-black-600">Dataset mirrors our environment for better generalization in real scenarios.</p>
+        </div>
+        <div class="card bg-blue-400 p-6 rounded-2xl shadow hover:shadow-lg transition">
+          <div class="card text-3xl mb-4"><i class="fa-solid fa-rocket"></i></div>
+          <h3 class="text-xl font-semibold mb-2">Proven Results</h3>
+          <p class="text-black-600">Consistent gains over legacy models on internal benchmarks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dataset Section -->
+  <div class="h-2 bg-gradient-to-r from-yellow-600 via-red-500 to-purple-500"></div>
+  <section id="dataset" class="py-20 bg-black text-white">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-4xl font-bold mb-6">The Dataset</h2>
+      <p class="text-lg mb-8 text-gray-300">CBAR is trained on a uniquely sourced Nigerian Urban Noise dataset of over <span class="font-bold text-blue-600">1300 hours</span> of real-world recordings including generator hums, busy market chatter, bus engines and honks, street sounds and urban crowd noise.</p>
+      <p class="text-lg mb-10 text-gray-300">This was ethically collected and the voices where recorded, remain anonymous from urban centers such as Port-Harcourt, Abuja, Lagos and Uyo. 
+                                            As such, this noise exists as Non-Stationary and is the primary motivation for the Pre-Processing and Architecture choice.</p> 
+      <p class="text-lg mb-10 text-gray-300">Data Pre-Processing involved use of Short Time Fourier Transform (STFT) to obtain frequency magnitudes (training data) and Inverse Short Time Fourier Transform (iSTFT) to reconstruct the denoised magnitude and hence, the denoised audio.</p>                                     
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+        <div class="dataset-card bg-indigo-400 text-black rounded-xl shadow p-6 hover:shadow-lg transition">
+          <div class="text-2xl mb-3"><i class="fa-solid fa-database"></i></div>
+          <h3 class="font-bold mb-2">Structured Data</h3>
+          <p>1300+ hours grouped into <b>Generators</b>, <b>Traffic & Vehicles</b>, <b>Streets & Markets</b>, plus a combined mega set.</p>
+        </div>
+        <div class="dataset-card bg-green-300 text-black rounded-xl shadow p-6 hover:shadow-lg transition">
+          <div class="text-2xl mb-3"><i class="fa-solid fa-location-dot"></i></div>
+          <h3 class="font-bold mb-2">Cities Covered</h3>
+          <ul class="list-disc list-inside text-black">
+            <li>Port Harcourt</li> 
+            <li>Uyo</li> 
+            <li>Abuja</li> 
+            <li>Lagos</li>
+          </ul>
+        </div>
+        <div class="dataset-card bg-yellow-400 text-black rounded-xl shadow p-6 hover:shadow-lg transition">
+          <div class="text-2xl mb-3"><i class="fa-solid fa-wave-square"></i></div>
+          <h3 class="font-bold mb-2">Preprocessing</h3>
+          <p>Short-Time Fourier Transform (STFT) for magnitudes; iSTFT for waveform reconstruction.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How CBAR Works -->
+  <div class="h-2 bg-gradient-to-l from-white via-blue-500 to-orange-500"></div>
+  <section id="how" class="py-20 bg-white text-gray-900">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-4xl font-bold text-center mb-12">How CBAR Works</h2>
+      <p class="font-bold p-2"> You might now be wondering, how really does this Denoiser work? Let's break it down and understand the components:</p>
+      <div class="grid md:grid-cols-2 gap-12 items-center mb-12">
+        <div>
+          <h3 class="text-2xl font-semibold mb-3">1. Convolutional Neural Networks (CNN)</h3>
+          <p class="text-justify">These are Neural Networks primarily built for work with images but their feature extraction capability serve a core purpose here.
+                                  By sliding over the time axis of the Magnitude input, it extracts low level features from the input.</p>
+        </div>
+        <img src="C:\Users\CHARLES EKANEM\Pictures\Screenshots\Screenshot 2025-07-26 235901.png" alt="CNN feature extraction" class="rounded-xl shadow">
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center mb-12">
+        <img src="C:\Users\CHARLES EKANEM\Pictures\Screenshots\Screenshot 2025-07-26 235727.png" alt="BiLSTM temporal modeling" class="rounded-xl shadow">
+        <div>
+          <h3 class="text-2xl font-semibold mb-3">2. Bidirectional Long Short-Term Memory (BiLSTM)</h3>
+          <p class="text-justify">LSTM is a Neural Network type gotten from the concept of Recurrent Neural Networks (RNN) which work with sequential time-dependent data. 
+                                  This BiLSTM component allows forward and backward context understanding by the Model.</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center mb-12">
+        <div>
+          <h3 class="text-2xl font-semibold mb-3">3. Attention Mechanism</h3>
+          <p class="text-justify">This mechanism enables the model to assign diverse weights to various parts of the input sequence based on their relevance when producing an output. 
+                                  This capability is particularly critical for handling inputs where the lengths and relevance strengths of different parts can vary significantly.</p>
+        </div>
+        <img src="C:\Users\CHARLES EKANEM\Pictures\Screenshots\Screenshot 2025-07-26 235402.png" alt="Attention mechanism" class="rounded-xl shadow">
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <img src="C:\Users\CHARLES EKANEM\Documents\CBAR project\plots\ResBlock.png" alt="Residual connections" class="rounded-xl shadow">
+        <div>
+          <h3 class="text-2xl font-semibold mb-3">4. Residual Connections</h3>
+          <p class="text-justify">To solve a classic Machine Learning problem of "Vanishing Gradient", Residual Connections have been employed. 
+                                  These improve optimization by bringing forward the input of the layer and adding to the output of that layer hence preventing diminshed signals as they pass through several layers.</p>
+        </div>
+      </div>
+      <p class="font-bold p-6">Just as the name should imply, these components are sequential coming one after the other. This can be visualized in the model architecture below.</p>
+      <div class="text-center mt-12">
+        <img src="C:\Users\CHARLES EKANEM\Documents\CBAR project\enhanced_denoiser_architecture.png" alt="CBAR Architecture" class="mx-auto rounded-xl shadow max-h-[420px]">
+      </div>
+    </div>
+  </section>
+
+   <!-- Demo Section -->
+  <div class="h-2 bg-gradient-to-r from-pink-600 via-red-500 to-indigo-500"></div>
+  <section id="demo" class="bg-black text-white py-20 px-6">
+    <div class="max-w-6xl mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-6">Try CBAR</h2>
+      <p class="text-lg text-gray-400 mb-10">Experience how CBAR denoises speech. Live API and uploads coming soon.</p>
+      <div class="grid md:grid-cols-2 gap-10">
+        <div class="bg-zinc-900 p-6 rounded-2xl shadow text-left">
+          <h3 class="text-xl font-semibold mb-4">API Preview</h3>
+          <pre class="bg-black/60 text-green-400 text-sm rounded p-4 overflow-x-auto">
+POST /denoise
+{ "audio_file": "noisy_sample.wav" }
+
+Response:
+{ "status": "success", "clean_audio": "link/to/output.wav" }
+          </pre>
+          <p class="mt-3 text-gray-400 italic">Live API integration in progress</p>
+        </div>
+        <div class="bg-zinc-900 p-3 rounded-xl shadow flex flex-col justify-center">
+          <h3 class="text-xl font-semibold mb-4">Upload a Sample</h3>
+          <p class="text-gray-400 mb-6">Soon, you’ll be able to upload your own audio and test CBAR online.</p>
+          <button class="p-3 bg-indigo-600 hover:bg-indigo-700 rounded-xl font-semibold shadow">Coming Soon...</button>
+        </div>
+      </div>
+      <p class="text-lg text-gray-400 mb-10 p-6">When the Denoiser is finally LIVE, you should expect a denoised audio as well as visualizations such as waveform and spectrogram.
+                                             Check back soon!</p>
+    </div>
+  </section>
+
+  <div class="h-2 bg-gradient-to-r from-yellow-600 via-green-500 to-gray-500"></div>
+  <section id="documentation" class="py-20 bg-white text-gray-900">
+    <div class="max-w-6xl mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-8">Documentation & Research</h2>
+      <p class="text-lg text-gray-600 mb-12">Explore publications, blogs and technical papers built on CBAR.</p>
+      <!-- Filters / Links -->
+      <div class="flex flex-wrap justify-center gap-3 mb-10">
+        <a href="#" class="bg-green-400 px-4 py-2 border rounded-full hover:bg-gray-100"><i class="fa-solid fa-book-open mr-2"></i>Blog</a>
+        <a href="#" class="bg-pink-400 px-4 py-2 border rounded-full hover:bg-gray-100"><i class="fa-solid fa-file-lines mr-2"></i>Research Papers</a>
+        <a href="#" class="bg-yellow-400 px-4 py-2 border rounded-full hover:bg-gray-100"><i class="fa-solid fa-book mr-2"></i>Books</a>
+        <a href="#" class="bg-red-400 px-4 py-2 border rounded-full hover:bg-gray-100"><i class="fa-solid fa-code mr-2"></i>API</a>
+      </div>
+      <div class="grid gap-8 md:grid-cols-3">
+        <div class="bg-gray-100 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+          <i class="fa-solid fa-book-open text-yellow-600 text-4xl mb-4"></i>
+          <h3 class="font-semibold text-yellow-600 text-xl mb-2">Inside the CBAR Dataset</h3>
+          <p class="text-gray-600 text-justify">How we captured 1300+ hours across four cities and prepared the data as well as updates on datasets, methods and real-world use cases.</p>
+          <a href="#" class="text-yellow-600 font-medium p-6">Read More →</a>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+          <i class="fa-solid fa-file-lines text-green-600 text-4xl mb-4"></i>
+          <h3 class="font-semibold text-green-600 text-xl mb-2">Conference Paper</h3>
+          <p class="text-gray-600 text-justify">Peer-reviewed IEEE-format research paper presenting CBAR as a Noise Reduction approach at the ICMEAS 2025.</p>
+          <a href="C:\Users\CHARLES EKANEM\Documents\CBAR project\Revised_ICMEASpaper_2025146.pdf" target="_blank" class="text-green-600 font-medium p-6">View Papers →</a>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+          <i class="fa-solid fa-book text-purple-600 text-4xl mb-4"></i>
+          <h3 class="font-semibold text-purple-600 text-xl mb-2">The CBAR Handbook</h3>
+          <p class="text-gray-600 text-justify">Expanded report documenting CBAR’s journey from background study, literature review up to data collection and deployment.</p>
+          <a href="#" class="text-purple-600 font-medium p-6">Explore Books →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews (Carousel) -->
+  <div class="h-2 bg-gradient-to-r from-black via-purple-500 to-pink-500"></div>
+  <section id="reviews" class="py-20 bg-black text-white">
+    <div class="max-w-4xl mx-auto text-center px-6">
+      <h2 class="text-4xl font-bold mb-4">What People Are Saying</h2>
+      <p class="text-lg text-white mb-8">Early users love CBAR’s clarity and reliability in noisy environments.</p>
+
+      <div class="relative bg-white shadow-lg rounded-2xl p-10 min-h-[220px]">
+        <div id="reviewContent" class="text-xl italic"></div>
+        <div id="reviewMeta" class="mt-4 text-sm text-gray-500"></div>
+
+        <!-- Controls -->
+        <div class="absolute inset-y-0 left-0 flex items-center">
+          <button id="prevReview" class="p-3 hover:bg-gray-100 rounded-full" aria-label="Previous Review">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center">
+          <button id="nextReview" class="p-3 hover:bg-gray-100 rounded-full" aria-label="Next Review">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-6" id="reviewDots"></div>
+    </div>
+  </section>
+
+  <!-- Contact / Footer -->
+  <div class="h-2 bg-gradient-to-l from-black via-purple-500 to-pink-500"></div>
+  <footer id="contact" class="bg-[#111] text-white pt-16">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-10">
+      <div>
+        <h2 class="text-2xl mb-3">CBAR</h2>
+        <p class="text-gray-400">Empowering Clarity in Communication.<br />Advanced Speech Enhancement for Nigerian Urban Noise Environments.</p>
+      </div>
+
+      <div>
+        <h3 class="text-lg mb-3">Quick Links</h3>
+        <ul class="space-y-2 text-gray-300">
+          <li><a href="#home" class="hover:underline">Home</a></li>
+          <li><a href="#how" class="hover:underline">How it Works</a></li>
+          <li><a href="#dataset" class="hover:underline">Dataset</a></li>
+          <li><a href="#reviews" class="hover:underline">Reviews</a></li>
+          <li><a href="#documentation" class="hover:underline">Documentation</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg mb-3">Features</h3>
+        <ul class="space-y-2 text-gray-300">
+          <li>Core Denoising Engine</li>
+          <li>Custom Built Dataset</li>
+          <li>API Access</li>
+          <li>Visualizations</li>
+          <li>Docs & Publications</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-lg mb-3">Contact</h3>
+        <p class="text-gray-300">
+          <span class="block">📧 <a href="mailto:charlesitaekanem@gmail.com" class="underline">charlesitaekanem@gmail.com</a></span>
+          <span class="block">📍 Uyo, Akwa Ibom</span>
+        </p>
+        <div class="mt-3 flex gap-4 text-xl">
+          <a href="https://charlesekanem.com.ng" target="_blank" aria-label="Website">🌐</a>
+          <a href="https://twitter.com/charles3ekanem" target="_blank" aria-label="Twitter">🐦</a>
+          <a href="0707 213 6684" aria-label="Phone">📘</a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center border-t border-gray-800 mt-10 py-6 text-sm text-gray-400">
+      © 2025 CBAR Project | Designed by Charles Ekanem
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Mobile menu toggle
+    document.getElementById("menuToggle").addEventListener("click", function () {
+      const menu = document.getElementById("mobileMenu");
+      menu.classList.toggle("hidden");
+    });
+
+    // Init Particles 
+      document.addEventListener("DOMContentLoaded", function () {
+        particlesJS('particles-js', {
+          particles: {
+            number: { value: 60 },
+            color: { value: "#b57aff" },
+            shape: { type: "circle" },
+            opacity: { value: 0.5 },
+            size: { value: 3 },
+            line_linked: {
+              enable: true,
+              distance: 150,
+              color: "#b57aff",
+              opacity: 0.4,
+              width: 1
+            },
+            move: { enable: true, speed: 1.5 }
+          },
+          interactivity: {
+            events: {
+              onhover: { enable: true, mode: "repulse" }
+            }
+          }
+        });
+      });
+
+    // Background crossfade carousel
+    (function() {
+      const slides = Array.from(document.querySelectorAll('#carousel .slide'));
+      let i = 0;
+      setInterval(() => {
+        slides[i].style.opacity = 0;
+        i = (i + 1) % slides.length;
+        slides[i].style.opacity = 1;
+      }, 5000);
+    })();
+
+    // Scrollspy for nav
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll(".nav-link");
+    function onScroll() {
+      let scrollPos = document.documentElement.scrollTop || document.body.scrollTop;
+      sections.forEach(sec => {
+        const offset = sec.offsetTop - 120;
+        const height = sec.offsetHeight;
+        const id = sec.getAttribute("id");
+        const link = document.querySelector('a[href="#' + id + '"]');
+        if (scrollPos >= offset && scrollPos < offset + height) {
+          navLinks.forEach(l => l.classList.remove("nav-active"));
+          if (link) link.classList.add("nav-active");
+        }
+      });
+    }
+    window.addEventListener("scroll", onScroll);
+    window.addEventListener("load", onScroll);
+
+   const chars = document.querySelector("#heroTitle").textContent.split("");
+   document.querySelector("#heroTitle").innerHTML = chars.map(c => `<span class="char">${c}</span>`).join("");
+
+   gsap.from(".char", {
+    opacity: 0,
+    y: 30,
+    stagger: 0.03,
+    duration: 0.6,
+    ease: "power3.out"
+   });
+
+    // GSAP animations
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from("#heroTitle", {opacity: 0, y: 30, duration: 1.1, ease: "power3.out"});
+    gsap.from("#heroSubtitle", {opacity: 0, y: 20, duration: 1, delay: 0.2, ease: "power3.out"});
+
+    //gsap.from("#why .card", {
+      scrollTrigger: { trigger: "#why", start: "top 70%" },
+      opacity: 0, y: 40, duration: 0.8, stagger: 0.15, ease: "power2.out"
+    });
+    //gsap.from("#dataset .dataset-card", {
+      scrollTrigger: { trigger: "#dataset", start: "top 70%" },
+      opacity: 0, y: 40, duration: 0.8, stagger: 0.15, ease: "power2.out"
+    });
+    //gsap.from("#how h3, #how img", {
+      scrollTrigger: { trigger: "#how", start: "top 70%" },
+      opacity: 0, y: 30, duration: 0.7, stagger: 0.12, ease: "power2.out"
+    });
+    //gsap.from("#demo .bg-zinc-900", {
+      scrollTrigger: { trigger: "#demo", start: "top 70%" },
+      opacity: 0, y: 40, duration: 0.8, stagger: 0.15, ease: "power2.out"
+    });
+    //gsap.from("#documentation article", {
+      scrollTrigger: { trigger: "#documentation", start: "top 70%" },
+      opacity: 0, y: 40, duration: 0.8, stagger: 0.15, ease: "power2.out"
+    });
+
+    // Reviews Carousel
+    const reviews = [
+      {
+        text: "CBAR makes meetings in Lagos much clearer — amazing!",
+        meta: "Umoren Udofia — Product Designer, Lagos",
+        rating: 5
+      },
+      {
+        text: "Finally, an AI trained for our noise reality in Nigeria.",
+        meta: "Jacob James Baridora — Data Analyst, Port-Harcourt",
+        rating: 5
+      },
+      {
+        text: "Outperformed every model we tested for urban noise.",
+        meta: "Umaru Abubakar — Research Engr., Abuja",
+        rating: 5
+      }
+    ];
+    let r = 0;
+    const reviewContent = document.getElementById("reviewContent");
+    const reviewMeta = document.getElementById("reviewMeta");
+    const dots = document.getElementById("reviewDots");
+    function renderReview(idx) {
+      const { text, meta, rating } = reviews[idx];
+      reviewContent.innerHTML = `<div class="mb-2">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div><div>“${text}”</div>`;
+      reviewMeta.textContent = meta;
+      dots.innerHTML = reviews.map((_, i) => (
+        `<span class="inline-block w-2.5 h-2.5 mx-1 rounded-full ${i===idx ? 'bg-gray-800' : 'bg-gray-300'}"></span>`
+      )).join("");
+    }
+    renderReview(r);
+    document.getElementById("prevReview").addEventListener("click", () => { r = (r - 1 + reviews.length) % reviews.length; renderReview(r); });
+    document.getElementById("nextReview").addEventListener("click", () => { r = (r + 1) % reviews.length; renderReview(r); });
+    // Auto-rotate
+    setInterval(() => { r = (r + 1) % reviews.length; renderReview(r); }, 6000);
+  </script>
+</body>
+</html>
